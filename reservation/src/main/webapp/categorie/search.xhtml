@@ -1,0 +1,82 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="/resources/scaffold/pageTemplate.xhtml"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+    <f:metadata>
+        <f:viewParam name="page" value='#{categorieBean.page}'/>
+        <f:event type="preRenderView" listener='#{categorieBean.paginate}'/>
+    </f:metadata>
+
+    <ui:param name="pageTitle" value="Search Categorie entities"/>
+
+    <ui:define name="header">
+        Categorie
+    </ui:define>
+
+    <ui:define name="subheader">
+        Search Categorie entities
+    </ui:define>
+
+    <ui:define name="footer"/>
+
+    <ui:define name="main">
+        <h:form id="search">
+            <f:validateBean disabled="true">
+                <h:panelGroup styleClass="search">
+
+                    <h:panelGrid columnClasses="label,component,required" columns="3">
+                        <h:outputLabel for="categorieBeanExampleDesignation" value="Designation:"/>
+                        <h:panelGroup>
+                            <h:inputText id="categorieBeanExampleDesignation" value="#{categorieBean.example.designation}"/>
+                            <h:message for="categorieBeanExampleDesignation" styleClass="error"/>
+                        </h:panelGroup>
+                        <h:outputText/>
+                    </h:panelGrid>
+                    <h:panelGroup styleClass="buttons">
+                        <h:commandLink value="Search" action='#{categorieBean.search}' styleClass="btn btn-primary"/>
+                        <h:commandLink value="Create New" action='#{categorieBean.create}' styleClass="btn btn-primary"/>
+                    </h:panelGroup>
+                </h:panelGroup>
+            </f:validateBean>
+
+            <c:forEach items="${categorieBean.pageItems}"  var="categorie" varStatus="categorie">
+                ${categorie.prix}
+            </c:forEach>      
+
+
+
+
+
+            <h:dataTable id="categorieBeanPageItems" styleClass="data-table" value="#{categorieBean.pageItems}" var="_item">
+                <h:column>
+                    <f:facet name="header">
+                        <h:outputText value="Designation"/>
+                    </f:facet>
+                    <h:link outcome="/categorie/view">
+                        <f:param name="id" value="#{_item.id}"/>
+                        <h:outputText id="_itemDesignation" value="#{_item.designation}"/>
+                    </h:link>
+                </h:column>
+                <h:column>
+                    <f:facet name="header">
+                        <h:outputText value="Prix"/>
+                    </f:facet>
+                    <h:link outcome="/categorie/view">
+                        <f:param name="id" value="#{_item.id}"/>
+                        <h:outputText id="_itemPrix" value="#{_item.prix}"/>
+                    </h:link>
+                </h:column>
+            </h:dataTable>
+            <ui:include src="/resources/scaffold/paginator.xhtml">
+                <ui:param name="paginatorBean" value='#{categorieBean}'/>
+            </ui:include>
+        </h:form>
+
+    </ui:define>
+
+</ui:composition>

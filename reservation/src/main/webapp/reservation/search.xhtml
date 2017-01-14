@@ -1,0 +1,106 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="/resources/scaffold/pageTemplate.xhtml">
+
+    <f:metadata>
+        <f:viewParam name="page" value='#{reservationBean.page}'/>
+        <f:event type="preRenderView" listener='#{reservationBean.paginate}'/>
+    </f:metadata>
+
+    <ui:param name="pageTitle" value="Search Reservation entities"/>
+
+    <ui:define name="header">
+        Reservation
+    </ui:define>
+
+    <ui:define name="subheader">
+        Search Reservation entities
+    </ui:define>
+
+    <ui:define name="footer"/>
+
+    <ui:define name="main">
+        <h:form id="search">
+            <f:validateBean disabled="true">
+                <h:panelGroup styleClass="search">
+
+                    <h:panelGrid columnClasses="label,component,required" columns="3">
+                        <h:outputLabel for="reservationBeanExampleNombre_nuits" value="Nombre_nuits:"/>
+                        <h:panelGroup>
+                            <h:inputText id="reservationBeanExampleNombre_nuits" value="#{reservationBean.example.nombre_nuits}"/>
+                            <h:message for="reservationBeanExampleNombre_nuits" styleClass="error"/>
+                        </h:panelGroup>
+                        <h:outputText/>
+                        <h:outputLabel for="reservationBeanExampleEtat" value="Etat:"/>
+                        <h:panelGroup>
+                            <h:inputText id="reservationBeanExampleEtat" value="#{reservationBean.example.etat}"/>
+                            <h:message for="reservationBeanExampleEtat" styleClass="error"/>
+                        </h:panelGroup>
+                        <h:outputText/>
+                    </h:panelGrid>
+                    <h:panelGroup styleClass="buttons">
+                        <h:commandLink value="Search" action='#{reservationBean.search}' styleClass="btn btn-primary"/>
+                        <h:commandLink value="Create New" action='#{reservationBean.create}' styleClass="btn btn-primary"/>
+                    </h:panelGroup>
+                </h:panelGroup>
+            </f:validateBean>
+
+            <h:dataTable id="reservationBeanPageItems" styleClass="data-table" value="#{reservationBean.pageItems}" var="_item">
+                <h:column>
+                    <f:facet name="header">
+                        <h:outputText value="Date d'arrivée"/>
+                    </f:facet>
+                    <h:link outcome="/reservation/view">
+                        <f:param name="id" value="#{_item.id}"/>
+                        <h:outputText id="_itemDateArrivee" value="#{_item.date_arrivee}"/>
+                    </h:link>
+                </h:column>
+                <h:column>
+                    <f:facet name="header">
+                        <h:outputText value="Nom"/>
+                    </f:facet>
+                    <h:link outcome="/reservation/view">
+                        <f:param name="id" value="#{_item.id}"/>
+                        <h:outputText id="_itemClientNom" value="#{_item.client.nom}"/>
+                    </h:link>
+                </h:column>
+                <h:column>
+                    <f:facet name="header">
+                        <h:outputText value="Prenom"/>
+                    </f:facet>
+                    <h:link outcome="/reservation/view">
+                        <f:param name="id" value="#{_item.id}"/>
+                        <h:outputText id="_itemClientPrenom" value="#{_item.client.prenom}"/>
+                    </h:link>
+                </h:column>
+                <h:column>
+                    <f:facet name="header">
+                        <h:outputText value="Telephone"/>
+                    </f:facet>
+                    <h:link outcome="/reservation/view">
+                        <f:param name="id" value="#{_item.id}"/>
+                        <h:outputText id="_itemClientTelephone" value="#{_item.client.telephone}"/>
+                    </h:link>
+                </h:column>
+                <h:column>
+                    <f:facet name="header">
+                        <h:outputText value="Chambre"/>
+                    </f:facet>
+                    <h:link outcome="/reservation/view">
+                        <f:param name="id" value="#{_item.id}"/>
+                        <h:outputText id="_itemClientProfession" value="#{_item.chambre}"/>
+                    </h:link>
+                </h:column>
+            </h:dataTable>
+            <ui:include src="/resources/scaffold/paginator.xhtml">
+                <ui:param name="paginatorBean" value='#{reservationBean}'/>
+            </ui:include>
+        </h:form>
+
+    </ui:define>
+
+</ui:composition>

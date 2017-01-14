@@ -1,0 +1,153 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:c="http://java.sun.com/jsp/jstl/core"
+                xmlns:forgeview="http://jboss.org/forge/view"
+                template="/resources/scaffold/pageTemplate.xhtml"
+                xmlns:p="http://primefaces.org/ui">
+
+    <f:metadata>
+        <f:viewParam name="id" value='#{reservationBean.id}'/>
+        <f:event type="preRenderView" listener='#{reservationBean.retrieve}'/>
+    </f:metadata>
+
+    <ui:param name="pageTitle" value="Create Reservation"/>
+
+    <ui:define name="header">
+        Reservation
+    </ui:define>
+
+    <ui:define name="subheader">
+        <c:choose>
+            <c:when test='#{!empty reservationBean.id}'>
+                Edit existing Reservation
+            </c:when>
+            <c:otherwise>
+                Create a new Reservation
+            </c:otherwise>
+        </c:choose>
+    </ui:define>
+
+    <ui:define name="footer"/>
+
+    <ui:define name="main">
+        <h:form id="create">
+            <h:messages globalOnly="true" styleClass="error"/>
+
+            <h:panelGrid columnClasses="label,component,required" columns="3">
+                <h:outputLabel value="Client :"/>
+
+                <ui:remove>
+                    <h:commandLink action="#{reservationBean.reservation.newClient}" 
+                                   rendered="#{empty reservationBean.reservation.client}" value="Create New Client"/>
+                </ui:remove>
+
+                <h:panelGrid columnClasses="label,component,required" columns="3">
+                    <h:outputLabel for="reservationBeanReservationClientNom" value="Nom :"/>
+                    <h:panelGroup>
+                        <h:inputText id="reservationBeanReservationClientNom" value="#{reservationBean.client.nom}"/>
+                        <h:message for="reservationBeanReservationClientNom" styleClass="error"/>
+                    </h:panelGroup>
+                    <h:outputText/>
+                    <h:outputLabel for="reservationBeanReservationClientPrenom" value="Prenom :"/>
+                    <h:panelGroup>
+                        <h:inputText id="reservationBeanReservationClientPrenom" value="#{reservationBean.client.prenom}"/>
+                        <h:message for="reservationBeanReservationClientPrenom" styleClass="error"/>
+                    </h:panelGroup>
+                    <h:outputText/>
+                    <h:outputLabel for="reservationBeanReservationClientEmail" value="Email :"/>
+                    <h:panelGroup>
+                        <h:inputText id="reservationBeanReservationClientEmail" value="#{reservationBean.client.email}"/>
+                        <h:message for="reservationBeanReservationClientEmail" styleClass="error"/>
+                    </h:panelGroup>
+                    <h:outputText/>
+                    <h:outputLabel for="reservationBeanReservationClientTelephone" value="Telephone :"/>
+                    <h:panelGroup>
+                        <h:inputText id="reservationBeanReservationClientTelephone" value="#{reservationBean.client.telephone}"/>
+                        <h:message for="reservationBeanReservationClientTelephone" styleClass="error"/>
+                    </h:panelGroup>
+                    <h:outputText/>
+                    <h:outputLabel for="reservationBeanReservationClientProfession" value="Profession :"/>
+                    <h:panelGroup>
+                        <h:inputText id="reservationBeanReservationClientProfession" value="#{reservationBean.client.profession}"/>
+                        <h:message for="reservationBeanReservationClientProfession" styleClass="error"/>
+                    </h:panelGroup>
+                    <h:outputText/>
+                </h:panelGrid>
+
+                <h:outputText/>
+                <h:outputLabel value="Chambre :"/>
+                <h:panelGroup>
+                    <ui:remove>
+                        <h:commandLink action="#{reservationBean.reservation.newChambre}" 
+                                       rendered="#{empty reservationBean.reservation.chambre}" value="Create New Chambre"/>   
+                    </ui:remove>
+
+                    <h:panelGrid columnClasses="label,component,required" columns="3" rendered="true">
+                        <h:outputLabel for="reservationBeanReservationChambreCategorie" value="Categorie :"/>
+                        <h:panelGroup>
+                            <h:selectOneMenu converter="#{categorieBean.converter}" id="reservationBeanReservationChambreCategorie" value="#{reservationBean.chambre.categorie}">
+                                <f:selectItem/>
+                                <f:selectItems itemLabel="#{forgeview:display(_item)}" itemValue="#{_item}" value="#{categorieBean.all}" var="_item"/>
+                            </h:selectOneMenu>
+                            <h:message for="reservationBeanReservationChambreCategorie" styleClass="error"/>
+                        </h:panelGroup>
+                        <h:outputText/>
+                        <ui:remove>
+                            <h:outputLabel for="reservationBeanReservationChambreReservee" value="Reservée :"/>
+                            <h:panelGroup>
+                                <h:inputText id="reservationBeanReservationChambreReservee" value="#{reservationBean.reservation.chambre.reservee}"/>
+                                <h:message for="reservationBeanReservationChambreReservee" styleClass="error"/>
+                            </h:panelGroup>
+                            <h:outputText/> 
+                        </ui:remove>
+
+                    </h:panelGrid>
+                </h:panelGroup>
+                <h:outputText/>
+
+                <h:outputLabel for="reservationBeanReservationDate_arrivee" value="Date d'arrivée :"/>
+                <h:panelGroup>
+                    <p:calendar id="reservationBeanReservationDate_arrivee" value="#{reservationBean.reservation.date_arrivee}">
+                        <f:convertDateTime type="date" pattern="dd/MM/yyyy"/>
+                    </p:calendar>
+                    <h:message for="reservationBeanReservationDate_arrivee" styleClass="error"/>
+                </h:panelGroup>
+                <h:outputText/>
+                <h:outputLabel for="reservationBeanReservationNombre_nuits" value="Nombre de nuits :"/>
+                <h:panelGroup>
+                    <h:inputText id="reservationBeanReservationNombre_nuits" value="#{reservationBean.reservation.nombre_nuits}"/>
+                    <h:message for="reservationBeanReservationNombre_nuits" styleClass="error"/>
+                </h:panelGroup>
+                <h:outputText/>
+                <ui:remove>
+                    <h:outputLabel for="reservationBeanReservationEtat" value="Etat :"/>
+                    <h:panelGroup>
+                        <h:inputText id="reservationBeanReservationEtat" value="#{reservationBean.reservation.etat}"/>
+                        <h:message for="reservationBeanReservationEtat" styleClass="error"/>
+                    </h:panelGroup>
+                    <h:outputText/>
+                </ui:remove>
+            </h:panelGrid>
+
+            <div class="buttons">
+                <h:commandLink value="Confirmer la reservation" action='#{reservationBean.update}' styleClass="btn btn-primary"/>
+                <c:choose>
+                    <c:when test='#{!empty reservationBean.id}'>
+                        <h:link value="Cancel" outcome="view" styleClass="btn btn-primary">
+                            <f:param name="id" value='#{reservationBean.id}'/>
+                        </h:link>
+                        <h:commandLink value="Delete" action='#{reservationBean.delete}' styleClass="btn btn-primary"/>
+                    </c:when>
+                    <c:otherwise>
+                        <h:link value="Annuler" outcome="search" styleClass="btn btn-primary"/>
+                    </c:otherwise>
+                </c:choose>
+            </div>
+        </h:form>
+    </ui:define>
+
+</ui:composition>

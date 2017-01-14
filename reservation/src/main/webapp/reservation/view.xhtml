@@ -1,0 +1,84 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	template="/resources/scaffold/pageTemplate.xhtml">
+
+	<f:metadata>
+		<f:viewParam name="id" value='#{reservationBean.id}'/>
+		<f:event type="preRenderView" listener='#{reservationBean.retrieve}'/>
+	</f:metadata>
+
+	<ui:param name="pageTitle" value="View Reservation"/>
+
+	<ui:define name="header">
+		Reservation
+	</ui:define>
+
+	<ui:define name="subheader">
+		View existing Reservation
+	</ui:define>
+
+	<ui:define name="footer"/>
+
+	<ui:define name="main">
+		<h:panelGrid columnClasses="label,component,required" columns="3">
+			<h:outputLabel for="reservationBeanReservationClient" value="Client:"/>
+			<h:panelGrid columnClasses="label,component,required" columns="3" id="reservationBeanReservationClient" rendered="#{!empty reservationBean.reservation.client}">
+				<h:outputLabel for="reservationBeanReservationClientNom" value="Nom:"/>
+				<h:outputText id="reservationBeanReservationClientNom" value="#{reservationBean.reservation.client.nom}"/>
+				<h:outputText/>
+				<h:outputLabel for="reservationBeanReservationClientPrenom" value="Prenom:"/>
+				<h:outputText id="reservationBeanReservationClientPrenom" value="#{reservationBean.reservation.client.prenom}"/>
+				<h:outputText/>
+				<h:outputLabel for="reservationBeanReservationClientEmail" value="Email:"/>
+				<h:outputText id="reservationBeanReservationClientEmail" value="#{reservationBean.reservation.client.email}"/>
+				<h:outputText/>
+				<h:outputLabel for="reservationBeanReservationClientTelephone" value="Telephone:"/>
+				<h:outputText id="reservationBeanReservationClientTelephone" value="#{reservationBean.reservation.client.telephone}"/>
+				<h:outputText/>
+				<h:outputLabel for="reservationBeanReservationClientProfession" value="Profession:"/>
+				<h:outputText id="reservationBeanReservationClientProfession" value="#{reservationBean.reservation.client.profession}"/>
+				<h:outputText/>
+			</h:panelGrid>
+			<h:outputText/>
+			<h:outputLabel for="reservationBeanReservationChambre" value="Chambre:"/>
+			<h:panelGrid columnClasses="label,component,required" columns="3" id="reservationBeanReservationChambre" rendered="#{!empty reservationBean.reservation.chambre}">
+				<h:outputLabel for="reservationBeanReservationChambreCategorie" value="Categorie:"/>
+				<h:link id="reservationBeanReservationChambreCategorie" outcome="/categorie/view" rendered="#{!empty reservationBean.reservation.chambre.categorie}" value="#{reservationBean.reservation.chambre.categorie}">
+					<f:param name="id" value="#{reservationBean.reservation.chambre.categorie.id}"/>
+				</h:link>
+				<h:outputText/>
+				<h:outputLabel for="reservationBeanReservationChambreReservee" value="Reservee:"/>
+				<h:outputText id="reservationBeanReservationChambreReservee" value="#{reservationBean.reservation.chambre.reservee}"/>
+				<h:outputText/>
+			</h:panelGrid>
+			<h:outputText/>
+			<h:outputLabel for="reservationBeanReservationDate_reservation" value="Date_reservation:"/>
+			<h:outputText id="reservationBeanReservationDate_reservation" value="#{reservationBean.reservation.date_reservation}">
+				<f:convertDateTime type="date"/>
+			</h:outputText>
+			<h:outputText/>
+			<h:outputLabel for="reservationBeanReservationDate_arrivee" value="Date_arrivee:"/>
+			<h:outputText id="reservationBeanReservationDate_arrivee" value="#{reservationBean.reservation.date_arrivee}">
+				<f:convertDateTime type="date"/>
+			</h:outputText>
+			<h:outputText/>
+			<h:outputLabel for="reservationBeanReservationNombre_nuits" value="Nombre_nuits:"/>
+			<h:outputText id="reservationBeanReservationNombre_nuits" value="#{reservationBean.reservation.nombre_nuits}"/>
+			<h:outputText/>
+			<h:outputLabel for="reservationBeanReservationEtat" value="Etat:"/>
+			<h:outputText id="reservationBeanReservationEtat" value="#{reservationBean.reservation.etat}"/>
+			<h:outputText/>
+		</h:panelGrid>
+
+		<div class="buttons">
+			<h:link value="View All" outcome="search" styleClass="btn btn-primary"/> 
+			<h:link value="Edit" outcome="create" includeViewParams="true" styleClass="btn btn-primary"/>
+			<h:link value="Create New" outcome="create" styleClass="btn btn-primary"/>
+		</div>
+	</ui:define>
+
+</ui:composition>

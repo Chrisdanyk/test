@@ -1,0 +1,88 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	template="/resources/scaffold/pageTemplate.xhtml">
+
+	<f:metadata>
+		<f:viewParam name="id" value='#{clientBean.id}'/>
+		<f:event type="preRenderView" listener='#{clientBean.retrieve}'/>
+	</f:metadata>
+
+	<ui:param name="pageTitle" value="Create Client"/>
+
+	<ui:define name="header">
+		Client
+	</ui:define>
+
+	<ui:define name="subheader">
+		<c:choose>
+			<c:when test='#{!empty clientBean.id}'>
+				Edit existing Client
+			</c:when>
+			<c:otherwise>
+				Create a new Client
+			</c:otherwise>
+		</c:choose>
+	</ui:define>
+
+	<ui:define name="footer"/>
+
+	<ui:define name="main">
+		<h:form id="create">
+			<h:messages globalOnly="true" styleClass="error"/>
+
+			<h:panelGrid columnClasses="label,component,required" columns="3">
+				<h:outputLabel for="clientBeanClientNom" value="Nom:"/>
+				<h:panelGroup>
+					<h:inputText id="clientBeanClientNom" value="#{clientBean.client.nom}"/>
+					<h:message for="clientBeanClientNom" styleClass="error"/>
+				</h:panelGroup>
+				<h:outputText/>
+				<h:outputLabel for="clientBeanClientPrenom" value="Prenom:"/>
+				<h:panelGroup>
+					<h:inputText id="clientBeanClientPrenom" value="#{clientBean.client.prenom}"/>
+					<h:message for="clientBeanClientPrenom" styleClass="error"/>
+				</h:panelGroup>
+				<h:outputText/>
+				<h:outputLabel for="clientBeanClientEmail" value="Email:"/>
+				<h:panelGroup>
+					<h:inputText id="clientBeanClientEmail" value="#{clientBean.client.email}"/>
+					<h:message for="clientBeanClientEmail" styleClass="error"/>
+				</h:panelGroup>
+				<h:outputText/>
+				<h:outputLabel for="clientBeanClientTelephone" value="Telephone:"/>
+				<h:panelGroup>
+					<h:inputText id="clientBeanClientTelephone" value="#{clientBean.client.telephone}"/>
+					<h:message for="clientBeanClientTelephone" styleClass="error"/>
+				</h:panelGroup>
+				<h:outputText/>
+				<h:outputLabel for="clientBeanClientProfession" value="Profession:"/>
+				<h:panelGroup>
+					<h:inputText id="clientBeanClientProfession" value="#{clientBean.client.profession}"/>
+					<h:message for="clientBeanClientProfession" styleClass="error"/>
+				</h:panelGroup>
+				<h:outputText/>
+			</h:panelGrid>
+
+			<div class="buttons">
+				<h:commandLink value="Save" action='#{clientBean.update}' styleClass="btn btn-primary"/>
+				<c:choose>
+					<c:when test='#{!empty clientBean.id}'>
+						<h:link value="Cancel" outcome="view" styleClass="btn btn-primary">
+							<f:param name="id" value='#{clientBean.id}'/>
+						</h:link>
+						<h:commandLink value="Delete" action='#{clientBean.delete}' styleClass="btn btn-primary"/>
+					</c:when>
+					<c:otherwise>
+						<h:link value="Cancel" outcome="search" styleClass="btn btn-primary"/>
+					</c:otherwise>
+				</c:choose>
+			</div>
+		</h:form>
+	</ui:define>
+
+</ui:composition>
